@@ -1,0 +1,7 @@
+---
+- name: Terreria Tshock Server setup
+  hosts: terraria
+  remote_user: root
+  roles:
+    - system-prep
+    - server-files

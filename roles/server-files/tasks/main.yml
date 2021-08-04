@@ -1,0 +1,53 @@
+---
+- name: TShock - download tshock release 4.5.5
+  get_url:
+    url: https://github.com/Pryaxis/TShock/releases/download/v4.5.5/TShock4.5.5_Terraria_1.4.2.3.zip
+    dest: /tmp/tshock.4.5.5.zip
+    mode: '0644'
+
+- name: TShock - Create temp path
+  file:
+    path: /tmp/tshock/
+    state: directory
+
+- name: TShock - Extract release
+  unarchive:
+    src: /tmp/tshock.4.5.5.zip
+    dest: /tmp/tshock/
+    remote_src: True
+
+- name: TShock - Create server directory
+  file:
+    path: /home/terraria/tshock-4.5.5/
+    owner: terraria
+    group: terraria
+    state: directory
+    mode: '0755'
+
+- name: TShock - Copy server files in place
+  copy:
+    src: /tmp/tshock/
+    dest: /home/terraria/tshock-4.5.5/
+    owner: terraria
+    group: terraria
+    remote_src: True
+
+- name: TShock - Create world directory
+  file:
+    path: /home/terraria/tshock-4.5.5/world/
+    owner: terraria
+    group: terraria
+    state: directory
+    mode: '0755'
+
+- name: TShock - Copy tshock service file in place
+  copy:
+    src: etc/systemd/system/tshock.service
+    dest: /etc/systemd/system/tshock.service
+
+- name: TShock - Enable and start tshock service
+  systemd:
+    state: started
+    enabled: yes
+    daemon_reload: yes
+    name: tshock

@@ -1,0 +1,34 @@
+- name: System - Add the user 'terraria'
+  user:
+    name: terraria
+    comment: 'terraria server user'
+
+- name: Packages - Install packages 'mono-complete, screen, unzip'
+  package:
+    name:
+      - mono-complete
+      - screen
+      - unzip
+    state: present
+
+- name: UFW - Enable SSH connections
+  ufw:
+    rule: allow
+    name: OpenSSH
+
+- name: UFW - Enable Terraria server connections
+  ufw:
+    rule: allow
+    port: '7777'
+    proto: any
+
+- name: UFW - Enable and set default deny
+  ufw:
+    state: enabled
+    policy: deny
+
+- name: syslog - Create syslog rule for server logging
+  copy:
+    src: etc/rsyslog.d/99-tshock.conf
+    dest: /etc/rsyslog.d/99-tshock.conf
+  notify: restart-rsyslog
