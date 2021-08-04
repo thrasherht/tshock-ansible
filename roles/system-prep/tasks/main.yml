@@ -2,6 +2,7 @@
   user:
     name: terraria
     comment: 'terraria server user'
+    shell: /usr/bin/bash
 
 - name: Packages - Install packages 'mono-complete, screen, unzip'
   package:

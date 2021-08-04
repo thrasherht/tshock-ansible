@@ -14,11 +14,12 @@
   unarchive:
     src: /tmp/tshock.4.5.5.zip
     dest: /tmp/tshock/
+    creates: no
     remote_src: True
 
 - name: TShock - Create server directory
   file:
-    path: /home/terraria/tshock-4.5.5/
+    path: /home/terraria/tshock/
     owner: terraria
     group: terraria
     state: directory
@@ -27,17 +28,25 @@
 - name: TShock - Copy server files in place
   copy:
     src: /tmp/tshock/
-    dest: /home/terraria/tshock-4.5.5/
+    dest: /home/terraria/tshock/
     owner: terraria
     group: terraria
     remote_src: True
 
 - name: TShock - Create world directory
   file:
-    path: /home/terraria/tshock-4.5.5/world/
+    path: /home/terraria/tshock/world/
     owner: terraria
     group: terraria
     state: directory
+    mode: '0755'
+
+- name: TShock - Copy world_check.sh script in place
+  copy:
+    src: home/terraria/tshock/world_check.sh
+    dest: /home/terraria/tshock/world_check.sh
+    owner: terraria
+    group: terraria
     mode: '0755'
 
 - name: TShock - Copy tshock service file in place

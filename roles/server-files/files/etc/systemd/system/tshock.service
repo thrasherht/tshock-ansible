@@ -8,11 +8,9 @@ TTYPath=/dev/tty11
 StandardOutput=journal
 StandardError=journal
 SyslogIdentifier=tshock-server
-Environment=world=world.wld
-Environment=worldpath=/home/terraria/tshock/world/
 WorkingDirectory=/home/terraria/tshock/
-ExecPre=/home/terraria/tshock/world_check.sh $world $worldpath
-ExecStart=mono-sgen TerrariaServer.exe -autocreate 3 -worldselectpath $worldpath -world $world -maxplayers 16
+ExecStartPre=/home/terraria/tshock/world_check.sh world /home/terraria/tshock/world
+ExecStart=mono-sgen TerrariaServer.exe -worldselectpath world/ -world world.wld -maxplayers 16
 
 [Install]
 WantedBy=multi-user.target
